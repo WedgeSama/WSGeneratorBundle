@@ -1,0 +1,42 @@
+{#########################################################################
+ # This file is part of the WSGeneratorBundle package.
+ # 
+ # (c) Benjamin Georgeault <https://github.com/WedgeSama/>
+ # 
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ #########################################################################}
+<?php
+
+{%- include 'License/license.php.twig' %}
+namespace {{ namespace }}\Entity;
+
+{% include 'Entity/uses.php.twig' %}
+
+{% block class_annot %}
+/**
+ * {{ entity }}
+ *
+ * @ORM\Table(name="{{ full_extension_alias }}")
+ * @ORM\Entity(repositoryClass="{{ namespace }}\Entity\Repository\{{ entity }}Repository")
+{% for field in fields %}
+{% if field.type_opts is defined -%}
+	{% if field.type_opts.unique is defined -%}
+		{% if field.type_opts.unique %}
+ * @UniqueEntity("{{ field.columnName }}")
+{% endif %}
+	{%- endif %}
+{%- endif %}
+{% endfor %}
+ */
+{% endblock class_annot %}
+{% block class_definition %}
+class {{ entity }} {
+{% endblock class_definition %}
+{% block class_body %}
+	{%- for field in fields %}
+		{%- include 'Entity/arg.php.twig' -%}
+	{% endfor %}
+{% endblock class_body %}
+
+}

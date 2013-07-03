@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use WS\GeneratorBundle\Command\Helper\EntityDialogHelper;
+use WS\GeneratorBundle\Generator\EntityGenerator;
 
 class GenerateEntityCommand extends ContainerAwareCommand {
 
@@ -25,7 +26,9 @@ class GenerateEntityCommand extends ContainerAwareCommand {
 			->addOption('fields', null, InputOption::VALUE_REQUIRED, 
 				'Les champs de l\'entity.')
 			->addOption('entities', null, InputOption::VALUE_REQUIRED, 
-				'Les liens avec les autres entities.');
+				'Les liens avec les autres entities.')
+			->addOption('license', null, InputOption::VALUE_OPTIONAL, 
+				'Genere les informations de license.', 'yes');
 		/*
 		$this->setHelp(
 				<<<EOT
@@ -39,8 +42,29 @@ EOT
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		print_r($input->getOption('fields'));
-		print_r($input->getOption('entities'));
+		$generator = new EntityGenerator($this->getContainer());
+		
+		$output->writeln(
+				array(
+						'', 
+						' 1/2 : Generation de l\'entity' 
+				));
+		
+		$generator->generate($input->getOption('entity'), 
+				$input->getOption('fields'), $input->getOption('entities'), $input->getOption('license'));
+		
+		$output->writeln(
+				array(
+						'', 
+						' 2/2 : Generation du repository' 
+				));
+		
+		$output->writeln(
+				array(
+						'', 
+						'    ENTITY GENEREE AVEC SUCCES', 
+						'' 
+				));
 	}
 
 	protected function initialize(InputInterface $input, OutputInterface $output) {
@@ -73,10 +97,24 @@ EOT
 		// recupere les liens avec les entities
 		$entities = $dialog->askEntities($output, $fields);
 		
+		// licence
+		$license = $dialog->askConfirmation($output,
+				'Generer les informations de license ? [yes]',
+				true);
+		
+		// Confirmation
+		if (! $dialog->askConfirmation($output, 
+				'Confirmer la generation ? [yes]', true)) {
+			$output->writeln('<error>Generation annulee</error>');
+			
+			return 1;
+		}
+		
 		// sauvegarde les variables
 		$input->setOption('entity', $entity);
 		$input->setOption('fields', $fields);
 		$input->setOption('entities', $entities);
+		$input->setOption('license', $license);
 	}
 
 }

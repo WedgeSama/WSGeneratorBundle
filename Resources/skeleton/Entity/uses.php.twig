@@ -1,0 +1,21 @@
+{#########################################################################
+ # This file is part of the WSGeneratorBundle package.
+ # 
+ # (c) Benjamin Georgeault <https://github.com/WedgeSama/>
+ # 
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ #########################################################################}
+{% block use_statements %}
+use Doctrine\ORM\Mapping as ORM;
+{% if valid or uniq -%}
+
+use Symfony\Component\Validator\Constraints as Assert;
+{%- endif %}
+
+{% if uniq -%}
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+{%- endif %}
+
+{% endblock use_statements %}
