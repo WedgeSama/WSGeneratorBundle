@@ -9,43 +9,9 @@
  */
 namespace WS\GeneratorBundle\Command\Helper;
 
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Sensio\Bundle\GeneratorBundle\Command\Validators;
-use Symfony\Component\Console\Helper\HelperSet;
 
 class BundleDialogHelper extends DialogHelper {
-
-	/**
-     * Demande une information à l'utilisateur et la valide
-     */
-	protected function askVar($output, $question, $validator, $default, 
-		$var = null) {
-		if ($default === null)
-			$default = $var;
-		
-		try {
-			$var = $var ? $validator($var) : null;
-		} catch (\Exception $error) {
-			$output->writeln(
-					$this->getHelperSet()
-						->get('formatter')
-						->formatBlock($error->getMessage(), 'error'));
-			$var = null;
-		}
-		
-		if ($default !== null)
-			$question .= ' [<comment>' . $default . '</comment>]';
-		
-		$question .= ' : ';
-		
-		$var = $this->askAndValidate($output, $question, 
-				function ($var) use($validator) {
-					return $validator($var);
-				}, false, $default);
-		
-		return $var;
-	}
 
 	/**
      * Demande un namespace
@@ -56,7 +22,7 @@ class BundleDialogHelper extends DialogHelper {
 		};
 		
 		return $this->askVar($output, 'Veuillez entrer le nom du bundle', 
-				$validator, null, $namespace);
+				$validator, $namespace);
 	}
 
 	/**
@@ -68,7 +34,7 @@ class BundleDialogHelper extends DialogHelper {
 		};
 		
 		return $this->askVar($output, 'Veuillez entrer le nom du dossier', 
-				$validator, null, $dir);
+				$validator, $dir);
 	}
 
 	/**
@@ -76,7 +42,7 @@ class BundleDialogHelper extends DialogHelper {
      */
 	public function askRoutePerfix($output, $prefix = null) {
 		$validator = function ($prefix) {
-			if(!preg_match('#/[/a-zA-Z0-9\-_]*#', $prefix))
+			if(!preg_match('#^/[/a-zA-Z0-9\-_]*$#', $prefix))
 				throw new \InvalidArgumentException('Prefix invalide.');
 			
 			return $prefix;
@@ -84,7 +50,7 @@ class BundleDialogHelper extends DialogHelper {
 		
 		return $this->askVar($output, 
 				'Veuillez entrer le prefix pour les routes du bundle', 
-				$validator, null, $prefix);
+				$validator, $prefix);
 	}
 
 	/**
