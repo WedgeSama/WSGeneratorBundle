@@ -1,0 +1,29 @@
+{
+	"name" : "wedgesama/generator-bundle",
+	"description" : "Symfony WSGeneratorBundle",
+	"type" : "symfony-bundle",
+	"authors" : [{
+			"name" : "Benjamin Georgeault",
+			"email" : "wedgesama@gmail.com",
+			"homepage" : "https://github.com/WedgeSama"
+		}
+	],
+	"keywords" : [
+		"Code generator"
+	],
+	"homepage" : "https://github.com/WedgeSama/WSGeneratorBundle",
+	"license" : [
+		"MIT"
+	],
+	"require" : {
+		"php" : ">=5.3.3",
+		"symfony/framework-bundle" : "~2.3"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"WS\\GeneratorBundle" : ""
+		}
+	},
+	"target-dir" : "WS/GeneratorBundle",
+	"minimum-stability" : "dev"
+}
