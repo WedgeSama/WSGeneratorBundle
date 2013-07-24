@@ -1,0 +1,59 @@
+{#########################################################################
+ # This file is part of the WSGeneratorBundle package.
+ # 
+ # (c) Benjamin Georgeault <https://github.com/WedgeSama/>
+ # 
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ #########################################################################}
+{% set opts = {'targetEntity': link.entity} %}
+{%- for opt in link.opts %}
+    {%- if opt.opts is defined -%}
+    {%- if opt.name == "cascade" -%}
+        {%- set opts = opts|merge({'cascade': opt.opts}) -%}
+    {%- elseif opt.name == "mappedBy" -%}
+        {%- set opts = opts|merge({'mappedBy': opt.opt}) -%}
+    {%- elseif opt.name == "inversedBy" -%}
+        {%- set opts = opts|merge({'inversedBy': opt.opt}) -%}
+    {%- endif -%}
+    {%- endif -%}
+{%- endfor %}
+
+    /**
+     * @ORM\{{ link.type }}({% for opt_name, opt_value in opts %}{{ opt_name }}="{{ opt_value }}"{% if not loop.last %}, {% endif %}{% endfor %})
+     {% for opt in link.opts -%}
+        {% if opt.name != "cascade" and "mappedBy" and "inversedBy" %}
+      * @ORM\{{ opt.name }}(
+            {%- if opt.name == "OrderBy" -%}
+                {{ "{" }}"{{ opt.value }}" = "ASC"{{ "}" }}
+            {%- elseif opt.name == "JoinColumn" and opt.opts is defined -%}
+                {%- set params = {} -%}
+                {%- for param_name, param_value in opt.opts -%}
+                    {%- if param_name == "name" -%}
+                        {%- set params = params|merge({'name': param_value|replace({'<DEFAULT>': link.name|lower ~ '_id'})}) -%}
+                    {%- elseif param_name == "refCol" -%}
+                        {%- set params = params|merge({'refCol': param_value}) -%}
+                    {%- elseif param_name == "unique" -%}
+                        {%- set params = params|merge({'unique': param_value}) -%}
+                    {%- elseif param_name == "nullable" -%}
+                        {%- set params = params|merge({'unique': param_value}) -%}
+                    {%- endif -%}
+                {%- endfor -%}
+                {%- for param_name, param_value in params -%}
+                    {{ param_name }}="{{ param_value }}"
+                    {% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            {%- elseif opt.name == "JoinTable" and opt.optsWithParams is defined -%}
+                {{ "{" }}
+                name="{{ entity_extension_alias }}_{{ link.name|lower }}", 
+                joinColumns={@JoinColumn(name="{{ opt.optsWithParams.name|replace({'<DEFAULT>': entity_extension_alias ~ '_id'}) }}", referencedColumnName="{{ opt.optsWithParams.refCol }}")}, 
+                inverseJoinColumns={@JoinColumn(name="{{ opt.optsWithParams.invName|replace({'<DEFAULT>': link.name|lower ~ '_id'}) }}", referencedColumnName="{{ opt.optsWithParams.invRefCol }}")
+                 {{ "}" }}
+            {%- endif -%}
+      
+        )
+        {%- endif -%}
+     {%- endfor %}
+     *
+     */
+    private ${{ link.name }};

@@ -6,14 +6,4 @@
  # For the full copyright and license information, please view the LICENSE
  # file that was distributed with this source code.
  #########################################################################}
-
-    /**
-     * @var {{ field.type }}
-     *
-     * @ORM\Column(name="{{ field.columnName }}", type="{{ field.type }}")
-     {% if field.id is defined -%}
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     {% endif -%}
-     */
-    private ${{ field.fieldName }};
+Benjamin Georgeault

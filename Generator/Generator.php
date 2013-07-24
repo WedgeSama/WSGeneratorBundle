@@ -15,42 +15,42 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Generator extends BaseGenerator {
 
-	protected $filesystem;
+    protected $filesystem;
 
-	protected $container;
+    protected $container;
 
-	public function __construct(ContainerInterface $container) {
-		$this->container = $container;
-		$this->filesystem = $this->container->get('filesystem');
-		
-		$skeletonDirs = array();
-		if (is_dir(
-				$dir = $this->container->get('kernel')
-					->getRootdir() . '/Resources/WSGeneratorBundle/skeleton')) {
-			$skeletonDirs[] = $dir;
-		}
-		
-		$skeletonDirs[] = __DIR__ . '/../Resources/skeleton';
-		$skeletonDirs[] = __DIR__ . '/../Resources';
-		
-		$this->setSkeletonDirs($skeletonDirs);
-	}
+    public function __construct(ContainerInterface $container) {
+        $this->container = $container;
+        $this->filesystem = $this->container->get('filesystem');
+        
+        $skeletonDirs = array();
+        if (is_dir(
+                $dir = $this->container->get('kernel')
+                    ->getRootdir() . '/Resources/WSGeneratorBundle/skeleton')) {
+            $skeletonDirs[] = $dir;
+        }
+        
+        $skeletonDirs[] = __DIR__ . '/../Resources/skeleton';
+        $skeletonDirs[] = __DIR__ . '/../Resources';
+        
+        $this->setSkeletonDirs($skeletonDirs);
+    }
 
-	protected function appendToFile($template, $target, $parameters) {
-		if (! is_dir(dirname($target))) {
-			mkdir(dirname($target), 0777, true);
-		}
-		
-		return file_put_contents($target, $this->render($template, $parameters), 
-				FILE_APPEND);
-	}
+    protected function appendToFile($template, $target, $parameters) {
+        if (! is_dir(dirname($target))) {
+            mkdir(dirname($target), 0777, true);
+        }
+        
+        return file_put_contents($target, $this->render($template, $parameters), 
+                FILE_APPEND);
+    }
 
-	protected function appendCodeToFile($target, $code) {
-		if (! is_dir(dirname($target))) {
-			mkdir(dirname($target), 0777, true);
-		}
-		
-		return file_put_contents($target, $code, FILE_APPEND);
-	}
+    protected function appendCodeToFile($target, $code) {
+        if (! is_dir(dirname($target))) {
+            mkdir(dirname($target), 0777, true);
+        }
+        
+        return file_put_contents($target, $code, FILE_APPEND);
+    }
 
 }

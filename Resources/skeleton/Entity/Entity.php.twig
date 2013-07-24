@@ -22,7 +22,7 @@ namespace {{ namespace }}\Entity;
 {% for field in fields %}
 {% if field.type_opts is defined -%}
 	{% if field.type_opts.unique is defined -%}
-		{% if field.type_opts.unique %}
+		{% if field.type_opts.unique == "true" %}
  * @UniqueEntity("{{ field.columnName }}")
 {% endif %}
 	{%- endif %}
@@ -35,8 +35,13 @@ class {{ entity }} {
 {% endblock class_definition %}
 {% block class_body %}
 	{%- for field in fields %}
-		{%- include 'Entity/arg.php.twig' -%}
+		{%- include 'Entity/field.php.twig' -%}
 	{% endfor %}
+	{#
+	{%- for link in entities %}
+		{%- include 'Entity/link.php.twig' -%}
+	{% endfor %}
+	#}
 {% endblock class_body %}
 
 }

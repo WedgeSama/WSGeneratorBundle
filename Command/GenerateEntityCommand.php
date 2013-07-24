@@ -95,7 +95,7 @@ EOT
 		$fields = $dialog->askFields($output, $fields);
 		
 		// recupere les liens avec les entities
-		$entities = $dialog->askEntities($output, $fields);
+		//$entities = $dialog->askEntities($output, $fields);
 		
 		// licence
 		$license = $dialog->askConfirmation($output,
@@ -113,7 +113,8 @@ EOT
 		// sauvegarde les variables
 		$input->setOption('entity', $entity);
 		$input->setOption('fields', $fields);
-		$input->setOption('entities', $entities);
+		//$input->setOption('entities', $entities);
+		$input->setOption('entities', array());
 		$input->setOption('license', $license);
 	}
 
