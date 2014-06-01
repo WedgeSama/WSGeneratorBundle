@@ -1,32 +1,19 @@
-{#########################################################################
- # This file is part of the WSGeneratorBundle package.
- # 
- # (c) Benjamin Georgeault <https://github.com/WedgeSama/>
- # 
- # For the full copyright and license information, please view the LICENSE
- # file that was distributed with this source code.
- #########################################################################}
 <?php
 
-{%- include 'License/license.php.twig' %}
 namespace {{ namespace }}\DependencyInjection\Compiler;
 
-{% block use_statements %}
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-{% endblock use_statements %}
 
-{% block class_definition %}
-class FormPass implements CompilerPassInterface {
-{% endblock class_definition %}
-{% block class_body %}
-	public function process(ContainerBuilder $container) {
-		$resources = $container->getParameter('twig.form.resources');
-		
-		$resources[] = '{{ bundle }}:Form:js_layout.html.twig';
-		$resources[] = '{{ bundle }}:Form:div_layout.html.twig';
-		
-		$container->setParameter('twig.form.resources', $resources);
-	}
-{% endblock class_body %}
+class FormPass implements CompilerPassInterface
+{
+    public function process(ContainerBuilder $container)
+    {
+        $resources = $container->getParameter('twig.form.resources');
+
+        $resources[] = '{{ bundle }}:Form:js_layout.html.twig';
+        $resources[] = '{{ bundle }}:Form:div_layout.html.twig';
+
+        $container->setParameter('twig.form.resources', $resources);
+    }
 }

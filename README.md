@@ -1,19 +1,19 @@
 WSGeneratorBundle
 =================
 
-Un bundle pour Symfony2. Generateur de code.
+A code generator for Symfony2.3.
 
 
 Documentation
 -------------
 
-Voir `Resources/doc/index.md`
+See `Resources/doc/index.md`
 
-[Resources/doc/index.md](https://github.com/WedgeSama/WSGeneratorBundle/blob/master/Resources/doc/index.md)
+[Resources/doc/index.md](Resources/doc/index.md)
 
 License
 -------
 
-Bundle sous licence MIT. Voir la licence complete :
+This bundle is under the MIT license. See the complete license in the bundle:
 
     Resources/meta/LICENSE

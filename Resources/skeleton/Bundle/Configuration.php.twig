@@ -1,14 +1,5 @@
-{#########################################################################
- # This file is part of the WSGeneratorBundle package.
- # 
- # (c) Benjamin Georgeault <https://github.com/WedgeSama/>
- # 
- # For the full copyright and license information, please view the LICENSE
- # file that was distributed with this source code.
- #########################################################################}
 <?php
 
-{%- include 'License/license.php.twig' %}
 namespace {{ namespace }}\DependencyInjection;
 
 {% block use_statements %}
@@ -17,10 +8,12 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 {% endblock use_statements %}
 
 {% block class_definition %}
-class Configuration implements ConfigurationInterface {
+class Configuration implements ConfigurationInterface
 {% endblock class_definition %}
+{
 {% block class_body %}
-    public function getConfigTreeBuilder() {
+    public function getConfigTreeBuilder()
+    {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('{{ extension_alias }}');
 

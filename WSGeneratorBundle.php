@@ -7,10 +7,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace WS\GeneratorBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class WSGeneratorBundle extends Bundle {
+class WSGeneratorBundle extends Bundle
+{
 
 }

@@ -1,12 +1,4 @@
-{#########################################################################
- # This file is part of the WSGeneratorBundle package.
- # 
- # (c) Benjamin Georgeault <https://github.com/WedgeSama/>
- # 
- # For the full copyright and license information, please view the LICENSE
- # file that was distributed with this source code.
- #########################################################################}
-Copyright (c) {{ "now"|date("Y") }} {% include 'License/copy_name.twig.twig' %} 
+Copyright (c) 2014 Benjamin Georgeault
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
