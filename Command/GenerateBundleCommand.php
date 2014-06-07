@@ -12,6 +12,7 @@
 namespace WS\GeneratorBundle\Command;
 
 use Sensio\Bundle\GeneratorBundle\Command\GenerateBundleCommand as BaseCommand;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use WS\GeneratorBundle\Generator\BundleGenerator;
 
 class GenerateBundleCommand extends BaseCommand
