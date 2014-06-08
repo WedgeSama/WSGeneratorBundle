@@ -15,6 +15,7 @@ use Sensio\Bundle\GeneratorBundle\Command\GenerateDoctrineFormCommand as BaseCom
 use Sensio\Bundle\GeneratorBundle\Command\Validators;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use WS\GeneratorBundle\Generator\DoctrineFormGenerator;
 
 class GenerateDoctrineFormCommand extends BaseCommand
@@ -48,5 +49,23 @@ class GenerateDoctrineFormCommand extends BaseCommand
             $generator->getClassName(),
             $generator->getClassPath()
         ));
+    }
+
+    protected function getSkeletonDirs(BundleInterface $bundle = null)
+    {
+        $skeletonDirs = array();
+
+        if (isset($bundle) && is_dir($dir = $bundle->getPath().'/Resources/WSGeneratorBundle/skeleton')) {
+            $skeletonDirs[] = $dir;
+        }
+
+        if (is_dir($dir = $this->getContainer()->get('kernel')->getRootdir().'/Resources/WSGeneratorBundle/skeleton')) {
+            $skeletonDirs[] = $dir;
+        }
+
+        $skeletonDirs[] = __DIR__.'/../Resources/skeleton';
+        $skeletonDirs[] = __DIR__.'/../Resources';
+
+        return $skeletonDirs;
     }
 }
